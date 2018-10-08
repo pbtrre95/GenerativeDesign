@@ -6,6 +6,7 @@
 ```js
 'use strict';
 var segmentCount = 360;
+// number of triangle segments to be drawn - in this case 360
 
 function setup() {
     createCanvas(800, 400);
@@ -14,16 +15,20 @@ function setup() {
 }
 
 function draw() {
-	console.log(mouseY);
+    // angle incremented to draw new triangle - in this case 360 times
 	var angleIncrement = 360 / segmentCount;
+    // size of the radius
 	var radius = 200;
 	
 	beginShape(TRIANGLE_FAN);
+    // beginning of triangle fan at the center of the canvas
 		vertex(width/2, height/2);
 		for(var angle = 0; angle <= 360; angle += angleIncrement) {
+        // each vertice is found and drawn with the new angle which has been incremented 360 times
 			var vx = radius * cos(radians(angle)) + width/2;
 			var vy = radius * sin(radians(angle)) + height/2;
 			vertex(vx, vy);
+            // colour is the angle out of 360 hues
 			fill(angle, 100, 100);
 		}
 	endShape();
