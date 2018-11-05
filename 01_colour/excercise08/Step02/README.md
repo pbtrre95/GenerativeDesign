@@ -1,6 +1,6 @@
 # Generative Design
 
-## Final
+## Step 2
 
 ```js
 'use strict';
@@ -10,6 +10,7 @@ var hueValues = []; // array for random hues
 var saturationValues = []; // array for random saturations
 var brightnessValues = []; // array for random brightnesses
 var actRandomSeed = 0; // pseudo random number generator init values
+var alphaValue = 27; // alpha for opacity values
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -20,6 +21,8 @@ function setup() {
 function draw() {
   // do not repeat random generation of numbers, runs once
   noLoop();
+  // redrawn tiles on black background
+  background(0);
   randomSeed(actRandomSeed);
 
   // ------ colors ------
@@ -29,14 +32,14 @@ function draw() {
     // important switch trick
     // for every second colour, choose from these hsb values
     if (i % 2 == 0) {
-      hueValues[i] = random(130, 220);
+      hueValues[i] = random(360);
       saturationValues[i] = 100;
-      brightnessValues[i] = random(15, 100);
+      brightnessValues[i] = random(100);
     }
     // else choose from these hsb values
     else {
       hueValues[i] = 195;
-      saturationValues[i] = random(20, 40);
+      saturationValues[i] = random(100);
       brightnessValues[i] = 100;
     }
   }
@@ -45,13 +48,12 @@ function draw() {
   // variable to count tiles
   var counter = 0;
   // row count and row height - random number of rows between 5 and 30
-  var rowCount = Math.floor(Math.random() * 10) + 5; 
-  console.log("rowCount", rowCount);
+  var rowCount = Math.floor(Math.random() * 30) + 5;
   var rowHeight = height / rowCount;
 
   
   // ------ code for fragmenting parts into smaller parts -------
-  /* // seperate each line into parts
+   // seperate each line into parts
   for (var i = rowCount; i >= 0; i--) {
     // index for rows number of fragments
     var partCount = i + 1;
@@ -71,74 +73,40 @@ function draw() {
       else {
         parts.push(random(2, 20));
       }
-    }*/
-
-  // for each row 
-  for (var i = rowCount; i >= 0; i--) {
-    var partCount = i + 1;
-    var parts = [];
-
-    // for each row populate that row with the same number of parts eg. second row two parts
-    // this parts array is renewed for each row here
-    for (var ii = 0; ii < partCount; ii++) {
-            // push the parts to the array
-            parts.push(Math.random() * 10) + 2;
     }
-    
-    // sum total of all the parts in the array
+
+    // add all subparts
     var sumPartsTotal = 0;
     for (var ii = 0; ii < partCount; ii++) {
       sumPartsTotal += parts[ii];
     }
 
-
+    // draw rects
     var sumPartsNow = 0;
     // this loops through each row, for each row's parts array
     // somePartsNow will act as part to be drawn
     // in a ratio of sumPartsNow : sumPartsTotal
     // and then mapped between 0 and the width
-    for (var j = 0; j < parts.length; j++) {
+    for (var ii = 0; ii < parts.length; ii++) {
+      sumPartsNow += parts[ii];
+
       var x = map(sumPartsNow, 0, sumPartsTotal, 0, width);
       // rowHeight * i just moves down each row
       var y = rowHeight * i;
-      // w will draw each part of the row using the width of the part
-      var w = map(parts[j], 0, sumPartsTotal, 0, width);
-      var h = rowHeight;
-      
-      // increments with every new tile drawn, new colour every tile, repeats when colors are finished
+      var w = -map(parts[ii], 0, sumPartsTotal, 0, width);
+      // multiplying the rowheight by 1.5 means larger rows
+      var h = rowHeight * 1.5;
+      // tile colours array index
       var index = counter % colorCount;
-      var col = color(hueValues[index], saturationValues[index], brightnessValues[index]);
-      fill(col);
-      // draw tiles
-      rect(x, y, w, h);
-      console.log('x', x, 'y', y, 'w', w, 'h', h);
+      // black
+      var col1 = color(0);
+      // colour saved in array
+      var col2 = color(hueValues[index], saturationValues[index], brightnessValues[index], alphaValue);
+      // shape drawn with gradient colour fill, gradient shades from to of tile downwards
+      gradient(x, y, w, h, col1, col2);
 
-      console.log('sumPartsNow', sumPartsNow);
-      sumPartsNow += parts[j];
-      console.log('sumPartsNow', sumPartsNow);
-      // counter for incrementing colours
       counter++;
     }
-  }
-}
-
-function mouseReleased() {
-  // pseudo random number generation when mouse is clicked 
-  // this number is used to semi random tile widths
-  actRandomSeed = random(100000);
-  loop();
-}
-
-function keyPressed() {
-  if (key == 's' || key == 'S') saveCanvas(gd.timestamp(), 'png');
-  if (key == 'c' || key == 'C') {
-    // -- save an ase file (adobe swatch export) --
-    var colors = [];
-    for (var i = 0; i < hueValues.length; i++) {
-      // color object
-      colors.push(color(hueValues[i], saturationValues[i], brightnessValues[i]));
-    }
-    writeFile([gd.ase.encode(colors)], gd.timestamp(), 'ase');
   }
 }
 ```
