@@ -33,8 +33,8 @@ function draw() {
   // map the number of tiles to where the mouse is in respect to the canvas
   // the bigger the x and y coordinates the larger number of tiles there will be
   // tileCountX and tileCountY are set at maximums of 50 and 10
-  var currentTileCountX = init(map(mX, 0, width, 1, tileCountX));
-  var currentTileCountY = init(map(mY, 0, height, 1, tileCountY));
+  var currentTileCountX = int(map(mX, 0, width, 1, tileCountX));
+  var currentTileCountY = int(map(mY, 0, height, 1, tileCountY));
 
   // tile heights and widths will be used to set rectangle heights and widths
   var tileWidth = width / currentTileCountX;
