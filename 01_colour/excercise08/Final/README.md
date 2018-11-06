@@ -1,6 +1,6 @@
 # Generative Design
 
-## Step 3
+## Final
 
 ```js
 'use strict';

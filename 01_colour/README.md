@@ -8,4 +8,7 @@
 4. [Excercise 4](excercise04)
 5. [Excercise 5](excercise05_Manipulating_Images)
 6. [Excercise 6](excercise06)
-6. [Excercise 7](excercise07)
+7. [Excercise 7](excercise07)
+8. [Excercise 8](excercise08)
+9. [Excercise 9](excercise09)
+10. [Excercise 10](excercise10)

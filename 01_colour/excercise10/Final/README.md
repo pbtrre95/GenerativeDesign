@@ -98,20 +98,24 @@ function draw() {
 
 
       if (random() < 0.45) {
-        var x = map(sumPartsNow, 0, sumPartsTotal, 0, width);
-        // rowHeight * i just moves down each row
-        var y = rowHeight * i;
-        var w = -map(parts[ii], 0, sumPartsTotal, 0, width);
-        // multiplying the rowheight by 1.5 means larger rows
+        var w = map(parts[ii], 0, sumPartsTotal, 0, width);
+        // rowHeight * 1.5
         var h = rowHeight * 1.5;
-        // tile colours array index
+        
+
+        // coordinates for tiles
+        var px1 = map(sumPartsNow, 0, sumPartsTotal, 0, width);
+        var px2 = px1 + w;
+        var py1 = rowHeight * i;
+        var py2 = py1 + h;
+
         var index = counter % colorCount;
-        // black
-        var col1 = color(0);
         // colour saved in array
-        var col2 = color(hueValues[index], saturationValues[index], brightnessValues[index], alphaValue);
-        // shape drawn with gradient colour fill, gradient shades from to of tile downwards
-        gradient(x, y, w, h, col1, col2);
+        var col1 = color(hueValues[index], saturationValues[index], brightnessValues[index], alphaValue);
+        // complementary colour
+        var col2 = color(hueValues[index] - 180, saturationValues[index], brightnessValues[index], alphaValue);
+        // shape drawn with gradient colour fill, gradient shades from center of tile outwards
+        centerGradient(px1, py1, 0, px2, py2, max(w, h), col1, col2);
         // counter for incrementing colours
         counter++;
       }
@@ -119,14 +123,16 @@ function draw() {
   }
 }
 
-// gradient function
-function gradient(x, y, w, h, c1, c2) {
+// center gradient function
+function centerGradient(x1, y1, r1, x2, y2, r2, c1, c2) {
   var ctx = drawingContext; // global canvas context p5.js var
-  var grd = ctx.createLinearGradient(x, y, x, y + h);
+  var cx = x1 + (x2 - x1) / 2;
+  var cy = y1 + (y2 - y1) / 2;
+  var grd = ctx.createRadialGradient(cx, cy, r1, cx, cy, r2);
   grd.addColorStop(0, c1.toString());
   grd.addColorStop(1, c2.toString());
   ctx.fillStyle = grd;
-  ctx.fillRect(x, y, w, h);
+  ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
 }
 
 function mouseReleased() {
