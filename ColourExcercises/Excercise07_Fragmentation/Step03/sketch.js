@@ -1,4 +1,8 @@
 var actRandomSeed = 0; // pseudo random number generator init values
+var colorCount = 20; // number of colours before pattern repeats
+var hueValues = []; // array for random hues
+var saturationValues = []; // array for random saturations
+var brightnessValues = []; // array for random brightnesses
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -40,7 +44,7 @@ function draw() {
 
   
   // ------ code for fragmenting parts into smaller parts -------
-  /* // seperate each line into parts
+   // seperate each line into parts
   for (var i = rowCount; i >= 0; i--) {
     // index for rows number of fragments
     var partCount = i + 1;
@@ -60,5 +64,48 @@ function draw() {
       else {
         parts.push(random(2, 20));
       }
-    }*/
+    }
+    // add all subparts
+    var sumPartsTotal = 0;
+    for (var ii = 0; ii < partCount; ii++) {
+      sumPartsTotal += parts[ii];
+    }
+
+    // draw rects
+    var sumPartsNow = 0;
+    for (var ii = 0; ii < parts.length; ii++) {
+      sumPartsNow += parts[ii];
+
+      var x = map(sumPartsNow, 0, sumPartsTotal, 0, width);
+      var y = rowHeight * i;
+      var w = -map(parts[ii], 0, sumPartsTotal, 0, width);
+      var h = rowHeight;
+
+      var index = counter % colorCount;
+      var col = color(hueValues[index], saturationValues[index], brightnessValues[index]);
+      fill(col);
+      rect(x, y, w, h);
+
+      counter++;
+    }
+  }
+}
+
+//When the mouse is released it sets another Color using the random set
+function mouseReleased() {
+  actRandomSeed = random(100000);
+  loop();
+}
+
+//key pressed function to save the canvas as an image
+function keyPressed() {
+  if (key == 's' || key == 'S') saveCanvas(gd.timestamp(), 'png');
+  if (key == 'c' || key == 'C') {
+    // -- save an ase file (adobe swatch export) --
+    var colors = [];
+    for (var i = 0; i < hueValues.length; i++) {
+      colors.push(color(hueValues[i], saturationValues[i], brightnessValues[i]));
+    }
+    writeFile([gd.ase.encode(colors)], gd.timestamp(), 'ase');
+  }
 }

@@ -85,35 +85,21 @@ function draw() {
     for (var ii = 0; ii < parts.length; ii++) {
       sumPartsNow += parts[ii];
 
-
-      // The difference between excercise 8 and 9 is seen here
-      // If a number between 0 and 1 randomly generated is less than 0.45
-      // the tile will be drawn, if not then the background will take its place
-      // meaning there will be 0.45 per cent of the screen covered in tiles statistically
-
-
-      if (random() < 0.45) {
-        var w = map(parts[ii], 0, sumPartsTotal, 0, width);
-        // rowHeight * 1.5
-        var h = rowHeight * 1.5;
-        
-
-        // coordinates for tiles
-        var px1 = map(sumPartsNow, 0, sumPartsTotal, 0, width);
-        var px2 = px1 + w;
-        var py1 = rowHeight * i;
-        var py2 = py1 + h;
-
-        var index = counter % colorCount;
-        // colour saved in array
-        var col1 = color(hueValues[index], saturationValues[index], brightnessValues[index], alphaValue);
-        // complementary colour
-        var col2 = color(hueValues[index] - 180, saturationValues[index], brightnessValues[index], alphaValue);
-        // shape drawn with gradient colour fill, gradient shades from center of tile outwards
-        centerGradient(px1, py1, 0, px2, py2, max(w, h), col1, col2);
-        // counter for incrementing colours
-        counter++;
-      }
+      var x = map(sumPartsNow, 0, sumPartsTotal, 0, width);
+      // rowHeight * i just moves down each row
+      var y = rowHeight * i;
+      var w = -map(parts[ii], 0, sumPartsTotal, 0, width);
+      // multiplying the rowheight by 1.5 means larger rows
+      var h = rowHeight * 1.5;
+      // tile colours array index
+      var index = counter % colorCount;
+      // black
+      var col1 = color(0);
+      // colour saved in array
+      var col2 = color(hueValues[index], saturationValues[index], brightnessValues[index], alphaValue);
+      // shape drawn with gradient colour fill, gradient shades from to of tile downwards
+      // counter for incrementing colours
+      counter++;
     }
   }
 }

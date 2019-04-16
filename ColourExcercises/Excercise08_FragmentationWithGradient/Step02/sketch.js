@@ -5,7 +5,7 @@ var hueValues = []; // array for random hues
 var saturationValues = []; // array for random saturations
 var brightnessValues = []; // array for random brightnesses
 var actRandomSeed = 0; // pseudo random number generator init values
-var alphaValue = 27; // alpha for opacity values
+var alphaValue = 75; // alpha for opacity values
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -105,19 +105,17 @@ function draw() {
   }
 }
 
-// gradient function
+//the gradient function takes in the values needed and creates the variable
 function gradient(x, y, w, h, c1, c2) {
   var ctx = drawingContext; // global canvas context p5.js var
-  var grd = ctx.createLinearGradient(x, y, x, y + h);
-  grd.addColorStop(0, c1.toString());
+  var grd = ctx.createLinearGradient(x, y, x, y + h);// creates the variable grd which create thte gradient in a linear fashion assigned by its values
+  grd.addColorStop(0, c1.toString());// Gradient starts at color1 + then stops at the next color value
   grd.addColorStop(1, c2.toString());
-  ctx.fillStyle = grd;
-  ctx.fillRect(x, y, w, h);
+  ctx.fillStyle = grd;//fills in the drawingContext depending on the variable gradient
+  ctx.fillRect(x, y, w, h);//Fills in each point of the gradient
 }
 
 function mouseReleased() {
-  // pseudo random number generation when mouse is clicked 
-  // this number is used to semi random tile widths
   actRandomSeed = random(100000);
   loop();
 }
@@ -128,7 +126,6 @@ function keyPressed() {
     // -- save an ase file (adobe swatch export) --
     var colors = [];
     for (var i = 0; i < hueValues.length; i++) {
-      // color object
       colors.push(color(hueValues[i], saturationValues[i], brightnessValues[i]));
     }
     writeFile([gd.ase.encode(colors)], gd.timestamp(), 'ase');

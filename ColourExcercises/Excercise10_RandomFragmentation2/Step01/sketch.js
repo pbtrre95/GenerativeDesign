@@ -85,22 +85,66 @@ function draw() {
     for (var ii = 0; ii < parts.length; ii++) {
       sumPartsNow += parts[ii];
 
-      var x = map(sumPartsNow, 0, sumPartsTotal, 0, width);
-      // rowHeight * i just moves down each row
-      var y = rowHeight * i;
-      var w = -map(parts[ii], 0, sumPartsTotal, 0, width);
-      // multiplying the rowheight by 1.5 means larger rows
-      var h = rowHeight * 1.5;
-      // tile colours array index
-      var index = counter % colorCount;
-      // black
-      var col1 = color(0);
-      // colour saved in array
-      var col2 = color(hueValues[index], saturationValues[index], brightnessValues[index], alphaValue);
-      // shape drawn with gradient colour fill, gradient shades from to of tile downwards
-      gradient(x, y, w, h, col1, col2);
-      // counter for incrementing colours
-      counter++;
+
+      // The difference between excercise 8 and 9 is seen here
+      // If a number between 0 and 1 randomly generated is less than 0.45
+      // the tile will be drawn, if not then the background will take its place
+      // meaning there will be 0.45 per cent of the screen covered in tiles statistically
+
+
+      if (random() < 0.45) {
+        var w = map(parts[ii], 0, sumPartsTotal, 0, width);
+        // rowHeight * 1.5
+        var h = rowHeight * 1.5;
+        
+
+        // coordinates for tiles
+        var px1 = map(sumPartsNow, 0, sumPartsTotal, 0, width);
+        var px2 = px1 + w;
+        var py1 = rowHeight * i;
+        var py2 = py1 + h;
+
+        var index = counter % colorCount;
+        // colour saved in array
+        var col1 = color(hueValues[index], saturationValues[index], brightnessValues[index], alphaValue);
+        // complementary colour
+        var col2 = color(hueValues[index] - 180, saturationValues[index], brightnessValues[index], alphaValue);
+        // shape drawn with gradient colour fill, gradient shades from center of tile outwards
+        centerGradient(px1, py1, 0, px2, py2, max(w, h), col1, col2);
+        // counter for incrementing colours
+        counter++;
+      }
     }
+  }
+}
+
+function centerGradient(x1, y1, r1, x2, y2, r2, c1, c2) {
+  var ctx = drawingContext; // global canvas context p5.js var
+  var cx = x1 + (x2 - x1) / 2;
+  var cy = y1 + (y2 - y1) / 2;
+  var grd = ctx.createRadialGradient(cx, cy, r1, cx, cy, r2);
+  grd.addColorStop(0, c1.toString());
+  grd.addColorStop(1, c2.toString());
+  ctx.fillStyle = grd;
+  ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
+}
+
+function mouseReleased() {
+  // pseudo random number generation when mouse is clicked 
+  // this number is used to semi random tile widths
+  actRandomSeed = random(100000);
+  loop();
+}
+
+function keyPressed() {
+  if (key == 's' || key == 'S') saveCanvas(gd.timestamp(), 'png');
+  if (key == 'c' || key == 'C') {
+    // -- save an ase file (adobe swatch export) --
+    var colors = [];
+    for (var i = 0; i < hueValues.length; i++) {
+      // color object
+      colors.push(color(hueValues[i], saturationValues[i], brightnessValues[i]));
+    }
+    writeFile([gd.ase.encode(colors)], gd.timestamp(), 'ase');
   }
 }
