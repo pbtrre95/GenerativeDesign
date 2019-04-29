@@ -1,3 +1,9 @@
+# Translation Excercises
+
+## Excercise 1
+
+
+```js
 // Canvas setup
 function setup() {
   canvas = createCanvas(720, 640);
@@ -11,7 +17,7 @@ function draw() {
   // When mouse is clicked 
   if (mouseIsPressed && mouseButton == LEFT) {
     push();
-      // Move to center of canvas
+      // Translate to center of canvas
       translate(width/2, height/2);
       var radius = mouseX - width / 2;
 
@@ -36,3 +42,4 @@ function draw() {
     pop();
   }
 };
+```

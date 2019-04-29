@@ -1,3 +1,8 @@
+# Translation Excercises
+
+## Excercise 3
+
+```js
 let numOfTiles = 30;
 let tileWidth;
 let angle = 30;
@@ -58,3 +63,4 @@ function keyReleased() {
   if (key == '2') actStrokeCap = SQUARE;
   if (key == '3') actStrokeCap = PROJECT;
 }
+```

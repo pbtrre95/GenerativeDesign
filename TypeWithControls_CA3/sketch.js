@@ -1,4 +1,4 @@
-// Variable list
+// Let list
 let pixelDensities = 5;
 let circleRadius = 5;
 let animated = false;

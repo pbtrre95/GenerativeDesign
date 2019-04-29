@@ -4,6 +4,7 @@ let angle = 30;
 let actRandomSeed = 1000;
 let actStrokeCap;
 
+// Setup canvas
 function setup() {
   canvas = createCanvas(600, 600);
   angleMode(DEGREES);
@@ -12,18 +13,22 @@ function setup() {
   actStrokeCap = ROUND;
 }
 
+// Draw function
 function draw() {
   clear();
   strokeCap(actStrokeCap);
   randomSeed(actRandomSeed);
 
+  // For the length of the canvas
   for (i = 0; i < numOfTiles; i++) {
     for (ii = 0; ii < numOfTiles; ii++) {
       fill(0);
       push();
+        // Translate to co create slanting lines
         translate(i * tileWidth + tileWidth / 2, ii * tileWidth  + tileWidth / 2);
-        //rectMode(CENTER);
+        // Random strokeweight to begin with
         var toggle = Math.floor(random(2));
+        // Mouse position will decide thickness of tiles, tileWidth is really the length of each tile
         if (toggle == 0) {
           strokeWeight(mouseX / 20);
           line(-tileWidth / 2, tileWidth/2, tileWidth / 2, -tileWidth / 2);
@@ -36,7 +41,7 @@ function draw() {
     }
   }
 };
-
+// Generate new pattern of tiles
 function mousePressed() {
   actRandomSeed = random(100000);
 }

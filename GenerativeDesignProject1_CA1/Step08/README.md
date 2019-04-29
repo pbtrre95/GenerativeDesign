@@ -2,7 +2,7 @@
 
 ## Step 8
 
-Implementing triadic and tetradic colour schemes 
+Implementing circle designs with triadic and tetradic colour schemes 
 
 ```js
 // Colour Shade
@@ -21,7 +21,7 @@ var rand = Math.floor(Math.random() * 255) + 200;  // returns a random integer f
 var scheme = new ColorScheme;
   scheme.from_hue(rand) // Start the scheme using random hue
   .scheme('tetrade') // Tetradic - four equal points on the color wheel
-  .variation('hard'); // 
+  .variation('hard'); //
 // Convert from scheme into colours usable for styling - tetradic colours
 var tetColors = scheme.colors();
 
@@ -74,7 +74,7 @@ function draw() {
       // Second pixel from first pixel coordinates and the random direction
       var secondPixelX = firstPixelX + xDirection;
       var secondPixelY = firstPixelY + yDirection;
-      // Second pixel 
+      // Second pixel
       var secondPixel = (secondPixelX + secondPixelY * width) * 4;
       // If second pixel is within the canvas and black
       if ((secondPixelX > 0) && (secondPixelY > 0) && (secondPixelX < height-1) && (secondPixelY < height-1) && pixels[secondPixel] == 0) {
@@ -82,8 +82,8 @@ function draw() {
         var firstPixelR = pixels[firstPixel];
         var firstPixelG = pixels[firstPixel + 1];
         var firstPixelB = pixels[firstPixel + 2];
-        
-        // Noise values 
+
+        // Noise values
         var secondPixelR = Math.min(Math.max(parseInt(firstPixelR + map(noise(firstPixelR), 0, 1, -range, range), 10), 1), 255);
         var secondPixelG = Math.min(Math.max(parseInt(firstPixelG + map(noise(firstPixelG), 0, 1, -range, range), 10), 1), 255);
         var secondPixelB = Math.min(Math.max(parseInt(firstPixelB + map(noise(firstPixelB), 0, 1, -range, range), 10), 1), 255);
@@ -116,7 +116,7 @@ function reset() {
   function coloursArray() {
     var colours = [];
     // First colour
-    var a = color(floor(random(0, 255)), floor(random(0, 255)), floor(random(0, 255))); 
+    var a = color(floor(random(0, 255)), floor(random(0, 255)), floor(random(0, 255)));
     var b = color(a.levels[0], a.levels[2], a.levels[0]);
     var c = color(a.levels[2], a.levels[2], a.levels[0]);
     // Array of triadic colours

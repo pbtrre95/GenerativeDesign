@@ -1,34 +1,42 @@
+// Minute hand details
 let minuteStrokeLength = 10;
 let minuteStrokeWeight = 4;
 let minuteStrokeColor;
 let minuteStrokeCap;
 
+// Hour hand details
 let hourStrokeLength = 30;
 let hourStrokeWeight = 10;
 let hourStrokeColor;
 let hourStrokeCap;
 
+// Clock size
 let clockRadius = 200;
 
+// Hour hand end taper
 let hourHandsTaper = 6;
 let hourHandLength = 195;
 let hourHandOffset = 80;
 let hourHandStartWidth = 20;
 
+// Minute hand end taper
 let minuteHandsTaper = 6;
 let minuteHandLength = 155;
 let minuteHandOffset = 80;
 let minuteHandStartWidth = 20;
 
+// Second hand end taper
 let secondHandsTaper = 2;
 let secondHandLength = 155;
 let secondHandOffset = 80;
 let secondHandStartWidth = 10;
 
+// Create canvas
 function setup() {
     createCanvas(500, 500);
     angleMode(DEGREES);
 
+    // Create color objects for hands and cap type
     minuteStrokeColor = color(30, 30, 30);
     minuteStrokeCap = SQUARE;
 
@@ -36,20 +44,24 @@ function setup() {
     hourStrokeCap = SQUARE;
 }
 
+// Draw function
 function draw() {
 	background(255);
+	// For each minute 
 	for (i = 0; i < 60; i++) {
 		push();
+			// Translate around the second of the clock
 			translate(width / 2, height /2);
 			rotate(map(i, 0, 60, 0, 360));
 
+			// Every five minutes make bigger tick
 			if (i === 0 || i % 5 === 0) {
 				strokeWeight(hourStrokeWeight);
 				fill(hourStrokeColor);
 				strokeCap(hourStrokeCap);
 				line(0, clockRadius - hourStrokeLength, 0, clockRadius);
 			}
-
+			// Else make a smaller tick
 			else {
 				strokeWeight(minuteStrokeWeight);
 				fill(minuteStrokeColor);
@@ -59,15 +71,16 @@ function draw() {
 		pop();
 	}
 
+	// Get current times
 	let hr = hour();
 	let min = minute();
 	let sec = second();
-
+	// Map it to 0 - 360
 	let hrs = map(hr, 0, 12, 0, 360);
 	let secs = map(sec, 0, 60, 0, 360);
 	let mins = map(min, 0, 60, 0, 360);
 
-	// hours hand
+	// Hour hand
 	push();
 		translate(width / 2, height / 2);
 		rotate(hrs + 270);
@@ -82,7 +95,7 @@ function draw() {
 		endShape(CLOSE);
 	pop();
 
-	// minutes hour
+	// Minute hand
 	push();
 		translate(width / 2, height / 2);
 		rotate(mins + 270);
@@ -98,7 +111,7 @@ function draw() {
 	pop();
 
 
-	// seconds hour
+	// Seconds Hand
 	push();
 		translate(width / 2, height / 2);
 		rotate(secs + 270);

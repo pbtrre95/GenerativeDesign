@@ -1,3 +1,8 @@
+# Clock Practice Excercise
+
+## Setup is slightly different to exam version
+
+```js
 'use strict'
 let actStrokeCap;
 // canvas setup
@@ -102,3 +107,4 @@ function keyReleased(){
   if (key == '2') actStrokeCap = SQUARE;
   if (key == '3') actStrokeCap = PROJECT;
 }
+```

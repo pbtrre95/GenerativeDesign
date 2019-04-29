@@ -1,4 +1,4 @@
-# The Nature of Code - P5 Vectors
+# The Nature of Code - P5 Vectors 
 
 Chapters will be broken down as follows:
 
