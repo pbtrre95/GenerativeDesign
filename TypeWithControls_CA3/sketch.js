@@ -1,4 +1,4 @@
-
+// Variable list
 let pixelDensities = 5;
 let circleRadius = 5;
 let animated = false;
@@ -32,11 +32,12 @@ let firstSet = true;
 let secondSet = false;
 let thirdSet = false;
 
+// Load fonts
 function preload() {
   myFont = loadFont('./data/FreeSansBold.ttf');
   img = loadImage('data/color.png');
 }
-
+// Create canvas
 function setup() {
   let canvas = createCanvas(500, 500);
   canvas.parent('canvasHolder');
@@ -44,6 +45,7 @@ function setup() {
 
   background(0);
 
+  // Setting up input sliders
   fontSizeSlider = createSlider(100, 200, fontSize);
   fontSizeSlider.parent('fontSizeController');
   fontSizeSlider.mouseReleased(update);
@@ -377,7 +379,7 @@ function draw() {
   lerpPulse();
   lerpPosition();
 }
-
+// Text image that will be displayed
 function setUpText() {
   console.log(fontSize);
   textImg = createGraphics(500,500);
@@ -390,6 +392,7 @@ function setUpText() {
   textImg.loadPixels();
 }
 
+// Create the start position and end position for the squares
 function createArrays() {
   for (let y = 0; y < textImg.height; y += pixelDensities) {
     for (let x = 0; x < textImg.width; x += pixelDensities) {
@@ -463,6 +466,7 @@ function lerpPulse() {
   }
 }
 
+// If one of the checkboxes or inputs have been changed then change its value from 0 to 1
 function update() {
   circleRadius = radiusSlider.value();
   pixelDensities = densitySlider.value();
@@ -519,10 +523,12 @@ function update() {
   counter = 0;
 }
 
+// Reverse the squares spinning
 function reverseRotation () {
   addedAngle =  addedAngle * -1;
 }
 
+// Save canvas
 function keyReleased() {
     if (keyCode === 's' || keyCode === 'S') saveCanvas(gd.timestamp(), 'png');
 }
